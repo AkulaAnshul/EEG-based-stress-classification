@@ -37,10 +37,12 @@ and place the .mat files inside the Data/ folder as per the paths in variables.p
 
 ### 4. Train all models
 python master_train.py
+
 This will train all 6 models and save them to the models/ folder automatically.
 
 ### 5. Run the app
 python server.py
+
 Open your browser at http://127.0.0.1:5000
 
 Usage
