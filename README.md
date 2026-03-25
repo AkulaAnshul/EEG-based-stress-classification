@@ -21,33 +21,6 @@ using multiple ML models with a live waveform monitor.
 | XGBoost       | 78.8%    |
 | CNN-LSTM      | 78.4%    |
 
----
-
-## Project Structure
-
-eeg_stress_detection/
-├── server.py # Flask backend API
-├── dataset.py # Data loading utilities
-├── features.py # Feature extraction (band power)
-├── variables.py # Path and config variables
-├── requirements.txt # Python dependencies
-│
-├── svm_train.py # Train SVM model
-├── rf_train.py # Train Random Forest model
-├── knn_train.py # Train KNN model
-├── mlp_train.py # Train MLP model
-├── coherence_xgb_train.py # Train XGBoost model (rich features)
-├── cnn_lstm_train.py # Train CNN-LSTM model
-├── master_train.py # Run all training + organize models
-│
-├── static/
-│ ├── index.html # Frontend UI
-│ └── style.css # Dark theme styles
-│
-├── models/ # Saved .pkl / .keras files (git ignored)
-└── Data/ # SAM-40 .mat files (git ignored)
----
-
 ## Setup
 
 ### 1. Clone the repository
