@@ -25,7 +25,7 @@ using multiple ML models with a live waveform monitor.
 
 ### 1. Clone the repository
 
-git clone https://github.com/YOUR_USERNAME/eeg-stress-classifier.git
+git clone https://github.com/AkulaAnshul/EEG-based-stress-classification.git
 cd eeg-stress-classifier
 
 ### 2. Install dependencies
