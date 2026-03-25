@@ -82,5 +82,3 @@ Open your browser at `http://127.0.0.1:5000`
 - imbalanced-learn (SMOTE)
 - TensorFlow / Keras (for CNN-LSTM)
 - MNE, MNE-Features
-
-MNE, MNE-Features
