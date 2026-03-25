@@ -1,80 +1,86 @@
-# EEG Stress Detection
-Classification of stress using EEG recordings from the SAM 40 dataset. A description of the dataset can be found [here](https://www.sciencedirect.com/science/article/pii/S2352340921010465).
+# EEG Stress Classifier
 
-## Files
+A real-time EEG-based stress detection web app using machine learning.
+Classifies EEG signals from the SAM-40 dataset as **Stressed** or **Relaxed**
+using multiple ML models with a live waveform monitor.
 
-**dataset**
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Flask](https://img.shields.io/badge/Flask-2.x-lightgrey)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Contains functions for loading and transforming the dataset
+---
 
-```load_dataset(data_type="ica_filtered", test_type="Arithmetic")```
+## Models
 
-Loads data from the SAM 40 Dataset with the test specified by test_type.
-The data_type parameter specifies which of the datasets to load. Possible values are raw, wt_filtered, ica_filtered.
-Returns an ndarray with shape (120, 32, 3200).
+| Model         | Accuracy |
+|---------------|----------|
+| SVM           | 70.3%    |
+| Random Forest | 75.2%    |
+| KNN           | 75.1%    |
+| MLP           | 74.9%    |
+| XGBoost       | 78.8%    |
+| CNN-LSTM      | 78.4%    |
 
-```load_labels()```
+---
 
-Loads labels from the dataset and transforms the label values to binary values.
-Values larger than 5 are set to 1 and values lower than or equal to 5 are set to zero.
+## Setup
 
-```format_labels(labels, test_type="Arithmetic", epochs=1)```
+### 1. Clone the repository
+```bash
+git clone https://github.com/AkulaAnshul/EEG-based-stress-classification.git
+cd EEG-based-stress-classification
+```
 
-Filter the labels to keep the labels from the test type specified by test_type.
-Repeat the labels by the amount of epochs in a recording, specified by epochs.
+### 2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Download the dataset
+Download the [SAM-40 dataset](https://www.kaggle.com/datasets/bhavikardeshna/sam40-eeg-dataset)
+and place the `.mat` files inside the `Data/` folder as per the paths in `variables.py`.
+
+### 4. Train all models
+```bash
+python master_train.py
+```
+This will train all 6 models and save them to the `models/` folder automatically.
+
+### 5. Run the app
+```bash
+python server.py
+```
+
+Open your browser at `http://127.0.0.1:5000`
 
 
-```split_data(dataset, sfreq)```
+## Usage
 
-Splits EEG data into epochs with length 1 sec.
+1. Select a model from the dropdown (SVM, RF, KNN, MLP, XGBoost, CNN-LSTM)
+2. Click **Load Sample** to load a random EEG epoch with live waveform
+3. Watch the real-time scrolling EEG signal
+4. Click **Classify EEG Signal** to get the prediction
+5. See Prediction, Ground Truth, and Match result instantly
 
+---
 
-**filtering**
+## Dataset
 
-A notebook for filtering data using bandpass filtering, Savitzky-Golay filtering and ICA filtering.
+- **SAM-40** — Stress and Affect Multi-Modal (EEG) Dataset
+- 40 subjects, 3 stress-inducing tasks (Arithmetic, Stroop, Mirror Image) + Relax
+- 32-channel EEG, 128 Hz sampling rate
+- Features: Band power (delta, theta, alpha, beta, gamma) across 32 channels
 
-ICA components can be removed using visual inspection of the components to determine the ones corresponding to noise and artifacts, and selection can be performed using a GUI.
+---
 
-The data can be saved to a directory to be used for classification.
+## Requirements
 
-The filtering is performed using the [```mne``` package](https://mne.tools/stable/index.html) which is a Python package specialised in MEG and EEG analysis and visualisation.
+- Python 3.10+
+- Flask
+- NumPy, SciPy, scikit-learn
+- XGBoost
+- imbalanced-learn (SMOTE)
+- TensorFlow / Keras (for CNN-LSTM)
+- MNE, MNE-Features
 
-**features**
-
-```time_series_features(data)```
-
-Compute the features peak-to-peak amplitude, variance and rms using the package mne_features.
-The data should be on the form (n_trials, n_secs, n_channels, sfreq)
-The output is on the form (n_trials\*n_secs, n_channels\*n_features)
-
-```freq_band_features(data, freq_bands)```
-
-Compute the frequency bands delta, theta, alpha, beta and gamma using the package mne_features.
-The data should be on the form (n_trials, n_secs, n_channels, sfreq)
-The output is on the form (n_trials\*n_secs, n_channels\*n_features)
-
-```hjorth_features(data)```
-
-Compute the features Hjorth mobility (spectral) and Hjorth complexity (spectral) using the package mne_features.
-The data should be on the form (n_trials, n_secs, n_channels, sfreq)
-The output is on the form (n_trials\*n_secs, n_channels\*n_features)
-
-```fractal_features(data)```
-
-Compute the Higuchi Fractal Dimension and Katz Fractal Dimension using the package mne_features.
-The data should be on the form (n_trials, n_secs, n_channels, sfreq)
-The output is on the form (n_trials\*n_secs, n_channels\*n_features)
-
-```entropy_features(data)```
-
-Compute the features Approximate Entropy, Sample Entropy, Spectral Entropy and SVD entropy using the package mne_features.
-The data should be on the form (n_trials, n_secs, n_channels, sfreq)
-The output is on the form (n_trials\*n_secs, n_channels\*n_features)
-
-**classification**
-
-Classification using features loaded from **features**. Uses a KNN classifier, SVM classifier and an MLP to classify.
-
-**variables**
-
-Script containing the global variables used in the project.
+MNE, MNE-Features
